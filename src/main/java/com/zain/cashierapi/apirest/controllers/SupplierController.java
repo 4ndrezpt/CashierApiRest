@@ -3,6 +3,7 @@ package com.zain.cashierapi.apirest.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.zain.cashierapi.apirest.repositories.SupplierRepository;
+
 import com.zain.cashierapi.apirest.models.SupplierModel;
 
 //import java.util.Date;
@@ -11,17 +12,17 @@ import java.util.List;
 
 
 @RestController 
-@RequestMapping("/suppliers")
+@RequestMapping("api/suppliers")
 public class SupplierController {
     @Autowired 
-    private SupplierRepository SupplierRepository;
+    private SupplierRepository supplierRepository;
 
     /*
      * 
     */
     @GetMapping("/{id}")
-    public SupplierModel getOntSupplierById(@PathVariable Integer id){
-        SupplierModel supplier =  SupplierRepository.findById(id)
+    public SupplierModel getOntSupplierById(@PathVariable Long id){
+        SupplierModel supplier =  supplierRepository.findById(id)
         .orElseThrow(()->new RuntimeException("No encontramos el proveedor"+id));
         return supplier;
     }
@@ -30,38 +31,40 @@ public class SupplierController {
      */
     @GetMapping
     public List<SupplierModel> findAllSuppliers(){
-        List<SupplierModel> list = SupplierRepository.findAll();
+        List<SupplierModel> list = supplierRepository.findAll();
         return list;
     }
     /*
      * 
      */
     @PostMapping
-    public SupplierModel createSupplier(SupplierModel supplier){
-        return SupplierRepository.save(supplier);
+    public SupplierModel createSupplier(@RequestBody SupplierModel supplier){
+        return supplierRepository.save(supplier);
     }
+        
     @PutMapping("/{id}")
-    public SupplierModel updateSupplier(@PathVariable Integer id,@RequestBody SupplierModel supplier){
-        SupplierModel founded = SupplierRepository.findById(id)
+    public SupplierModel updateSupplier(@PathVariable Long id, @RequestBody SupplierModel supplier){
+        SupplierModel founded = supplierRepository.findById(id)
         .orElseThrow(()->new RuntimeException("No encontramos el proveedor"+id));
             founded.setName(supplier.getName());
-            founded.setLastName(supplier.getLastName());
+            founded.setLastName(supplier.getLastName());            
             founded.setNit(supplier.getNit());
             founded.setEnterprise(supplier.getEnterprise());
             founded.setEmail(supplier.getEmail());
             founded.setPhone(supplier.getPhone());
             founded.setAddress(supplier.getAddress());
             founded.setState(supplier.getState());
-        return SupplierRepository.save(supplier);
+            founded.setBegan(supplier.getBegan());            
+        return supplierRepository.save(supplier);
     }
     /*
      * 
      */
     @DeleteMapping("/{id}")
-    public String deleteSupplier(@PathVariable Integer id){
-        SupplierModel founded = SupplierRepository.findById(id)
+    public String deleteSupplier(@PathVariable Long id){
+        SupplierModel founded = supplierRepository.findById(id)
         .orElseThrow(()->new RuntimeException("No encontramos el proveedor"+id));
-        SupplierRepository.delete(founded);
+        supplierRepository.delete(founded);
         return "El proveedor fue eliminado de la base de datos";
     }
 

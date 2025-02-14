@@ -3,11 +3,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Temporal;
 import jakarta.persistence.GenerationType;
-import java.util.Date;
 
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 /*
  * author: Andres Zapata. medstrings6@gmail.com
@@ -18,10 +20,13 @@ import org.hibernate.annotations.CreationTimestamp;
 public class SupplierModel {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int Id;        
+    @Column(nullable = false)
+    private Long Id;        
+    @Column(nullable = false)
     private String name;
-    @Column(name="lastName")
+    @Column(name="lastName", nullable=false)
     private String lastName;
+    
     @Column(unique=true,nullable=false)
     private String nit;
     @Column(nullable=false)
@@ -33,14 +38,23 @@ public class SupplierModel {
     @Column(nullable=false)  
     private String address;
     @Column(nullable=false)
-    private Boolean state;
-    @CreationTimestamp
-    private Date began;
+    private String state;    
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private java.sql.Date began;      
     
-    public int getId() {
+    
+    public java.sql.Date getBegan() {
+        return began;
+    }
+    public void setBegan(java.sql.Date began) {
+        this.began = began;
+    }
+    public Long getId() {
         return Id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
     public String getName() {
@@ -55,6 +69,7 @@ public class SupplierModel {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    
     public String getNit() {
         return nit;
     }
@@ -85,10 +100,10 @@ public class SupplierModel {
     public void setAddress(String address) {
         this.address = address;
     }
-    public Boolean getState() {
+    public String getState() {
         return state;
     }
-    public void setState(Boolean state) {
+    public void setState(String state) {
         this.state = state;
     }
 

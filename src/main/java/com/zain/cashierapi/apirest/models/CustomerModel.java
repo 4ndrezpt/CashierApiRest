@@ -8,11 +8,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 
 
 //TODO: verificar inserción de sqlDate con envio de datos string  yyyy-MM-dd
@@ -30,20 +26,22 @@ public class CustomerModel {
     private String lastName;
     @Column(name="typeDocument", nullable=false, length=10)
     private String typeDocument;
-    @Column (unique=true,nullable = false, length=30)    
+    @Column (nullable = false, length=30,unique=true)    
     private String document;
     @Column(length = 20)
-    private String phone;    
+    private String phone;
+        
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern="dd-MM-yyyy")
-    private Date birthdate;      
-    public Date getBirthdate() {
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private java.sql.Date birthdate;      
+    
+    public java.sql.Date getBirthdate() {
         return birthdate;
     }
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(java.sql.Date birthdate) {
         this.birthdate = birthdate;
     }
-    @Column (unique=true,nullable= false)        
+    @Column(nullable= false,unique=true)        
     private String email;        
     private String address;
     public Long getId() {

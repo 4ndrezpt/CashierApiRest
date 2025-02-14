@@ -11,7 +11,7 @@ import java.util.List;
  * class for instanciation of products, and mapping
 */
 @RestController
-@RequestMapping("/products")
+@RequestMapping("api/products")
 public class ProductController {
     @Autowired
     private ProductRepository productRepository;
@@ -39,7 +39,8 @@ public class ProductController {
     /*
      * params:
      * return:     
-     */
+     */ 
+  
     @PostMapping
     public ProductModel createProduct(@RequestBody ProductModel product){
         return productRepository.save(product);
@@ -57,7 +58,7 @@ public class ProductController {
             founded.setName(product.getName());
             founded.setProducer(product.getProducer());
             founded.setPackaging(product.getPackaging());
-            founded.setCode(product.getPackaging());
+            founded.setCode(product.getCode());
             founded.setPrice(product.getPrice());
             founded.setQuantity(product.getQuantity());
             founded.setDistributor(product.getDistributor());

@@ -22,9 +22,17 @@ public class ProductModel {
     private String code;  
     @Column(nullable=false)  
     private double price;
+    @Column(nullable=false)
+    private String category;
+    public String getCategory() {
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
     private int quantity;    
-    private int distributor;
-    @Column(nullable=false)  
+    private String distributor;
+    @Column(name="pricePurchased", nullable=false)  
     private double pricePurchased;
     public Long getId() {
         return id;
@@ -68,10 +76,10 @@ public class ProductModel {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public int getDistributor() {
+    public String getDistributor() {
         return distributor;
     }
-    public void setDistributor(int distributor) {
+    public void setDistributor(String distributor) {
         this.distributor = distributor;
     }
     public double getPricePurchased() {

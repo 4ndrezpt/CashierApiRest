@@ -3,7 +3,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.zain.cashierapi.apirest.repositories.CustomerRepository;
 import com.zain.cashierapi.apirest.models.CustomerModel;
-import com.zain.cashierapi.apirest.models.ProductModel;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * class for instantiation, and mapping for customers
 */
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("api/customers")
 public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
@@ -71,7 +70,7 @@ public class CustomerController {
 
         return customerRepository.save(customer);
     }
-    //Actualizar producto : PUT
+    //Borrar producto : PUT
     /*
      * params: id producto
      * return:     String que confirma que el cliente fue borrado de la BBDD

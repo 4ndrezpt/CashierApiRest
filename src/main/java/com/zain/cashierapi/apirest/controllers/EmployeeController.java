@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import com.zain.cashierapi.apirest.repositories.EmployeeRepository;
 import com.zain.cashierapi.apirest.models.EmployeeModel;
 
-//import java.util.Date;
 import java.util.List;
 
 
@@ -14,7 +13,7 @@ import java.util.List;
  * class for instantiation, and mapping for customers
 */
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("api/employees")
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -25,9 +24,10 @@ public class EmployeeController {
      * return:   empleado o exception  
      */
     @GetMapping("/{id}")
-    public EmployeeModel getOneEmployeeById(@PathVariable Integer id){
+    public  EmployeeModel getOneEmployeeById(@PathVariable Long id){
         return employeeRepository.findById(id)
-        .orElseThrow(()-> new RuntimeException("No encontramos el empleado solicitado "+ id));
+        .orElseThrow(() -> new RuntimeException("Ningún empleado coincide con tu consulta"+": "+id));                      
+        //.orElseThrow(()-> new RuntimeException("No encontramos el empleado solicitado "+ id));
     }
     //traer cliente por su id : GET
     /*
@@ -44,17 +44,18 @@ public class EmployeeController {
      * params: EmployeeModel empleado 
      * return:   empleado o exception  
      */
+
     @PostMapping
-    public EmployeeModel createEmployee(EmployeeModel employee){
+    public EmployeeModel createEmployee(@RequestBody EmployeeModel employee){
         return employeeRepository.save(employee);
     }
      //traer cliente por su id : GET
     /*
      * params: EmployeeModel empleado 
-     * return:   empleado actualizado o exception  
+     * return:   Lista de empleados actualizado o exception  
      */
     @PutMapping("/{id}")
-    public EmployeeModel updateEmployee(@PathVariable Integer id, EmployeeModel employee){
+    public EmployeeModel updateEmployee(@PathVariable Long id,@RequestBody EmployeeModel employee){
         EmployeeModel founded = employeeRepository.findById(id)
         .orElseThrow(() ->new RuntimeException("No se actualizo el empleado" + id));
             founded.setName(employee.getName());
@@ -62,8 +63,9 @@ public class EmployeeController {
             founded.setTypeDocument(employee.getTypeDocument());
             founded.setDocument(employee.getDocument());
             founded.setPhone(employee.getPhone());
-            founded.setBirthdate(employee.getBirthdate());
             founded.setEmail(employee.getEmail());
+            founded.setBirthdate(employee.getBirthdate());
+            founded.setBegan(employee.getBegan());
             founded.setRole(employee.getRole());
 
         return employeeRepository.save(employee);
@@ -75,10 +77,11 @@ public class EmployeeController {
      * trhow: String que informa que no existia el recurso
      */
     @DeleteMapping("/{id}")
-    public String deleteEmployee(@PathVariable Integer id){
+    public String deleteEmployee(@PathVariable Long id){
         EmployeeModel employee = employeeRepository.findById(id)
         .orElseThrow(()->new RuntimeException("No existia el empleado en la base de datos"));
         employeeRepository.delete(employee);
+        
         return "Empleado borrado de la base de datos"+id;
     }
 

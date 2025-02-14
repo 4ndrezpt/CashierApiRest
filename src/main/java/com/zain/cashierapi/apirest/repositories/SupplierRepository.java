@@ -1,7 +1,10 @@
 package com.zain.cashierapi.apirest.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import com.zain.cashierapi.apirest.models.SupplierModel;
 
-public interface SupplierRepository extends JpaRepository<SupplierModel, Integer>{
+@Repository
+public interface SupplierRepository extends JpaRepository<SupplierModel, Long>{
 
 }

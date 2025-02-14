@@ -6,9 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import java.util.Date;
-
-import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /*
  * author: Andres Zapata. medstrings6@gmail.com
@@ -19,42 +19,50 @@ import org.hibernate.annotations.CreationTimestamp;
 public class EmployeeModel {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
     @Column(nullable=false, length=60)    
     private String name;
-    @Column(name="lastName",nullable=false, length=60)
+    @Column(name="lastName",nullable=false)
     private String lastName;
-    @Column(name="typeDocument",nullable=false, length=10)
+    @Column(name="typeDocument",nullable=false)
     private String typeDocument;
-    @Column(unique=true, nullable=false, length=20)    
+    @Column(unique=true, nullable=false)    
     private String document;    
     @Column(length=20)
     private String phone;
-    @Column(nullable=false)    
+    @Column(nullable=false) 
+    
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")    
     private java.sql.Date birthdate;
+
     @Column(unique=true, nullable=false)    
     private String email;
-    @CreationTimestamp
-    private Date began;
-    @Column(nullable=false, length=10)    
-    private String role;
 
-    public Date getBegan() {
+    @Temporal(TemporalType.DATE)    
+    @DateTimeFormat(pattern="yyyy-MM-dd")    
+    private java.sql.Date began;
+    
+    public java.sql.Date getBegan() {
         return began;
     }
-    public void setBegan(Date began) {
+    public void setBegan(java.sql.Date began) {
         this.began = began;
     }
+    @Column(nullable=false, length=30)    
+    private String role;
+
+  
     public String getRole() {
         return role;
     }
     public void setRole(String role) {
         this.role = role;
     }
-    public int getId() {
+    public Long getId() {
         return Id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
     public String getName() {
